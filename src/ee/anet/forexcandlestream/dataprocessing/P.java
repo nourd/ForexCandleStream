@@ -60,4 +60,22 @@ public class P {
         }
         return candles;
     }
+
+    public static ArrayList<Candle> semiCandlesToCandles(
+            Map<LocalDateTime, Double> openTicks,
+            Map<LocalDateTime, Double> closeTicks,
+            Map<LocalDateTime, Double> highTicks,
+            Map<LocalDateTime, Double> lowTicks) {
+
+        ArrayList<Candle> candles = new ArrayList<>();
+
+        for (LocalDateTime key : openTicks.keySet()) {
+            candles.add(
+                    new Candle(key,openTicks.get(key).doubleValue(), highTicks.get(key).doubleValue(), lowTicks.get(key).doubleValue(), closeTicks.get(key).doubleValue())
+            );
+        }
+
+        return candles;
+
+    }
 }

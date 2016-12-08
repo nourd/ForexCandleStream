@@ -41,11 +41,12 @@ public class Candle {
     public final double lowBidQuote;
     public final double closeBidQuote;
     
-    public Candle(LocalDateTime dateTimeStamp, 
-                    double openBidQuote, 
-                    double hightBidQuote, 
-                    double lowBidQuote,
-                    double closeBidQuote) {
+    public Candle(
+            LocalDateTime dateTimeStamp,
+            double openBidQuote,
+            double hightBidQuote,
+            double lowBidQuote,
+            double closeBidQuote) {
         this.dateTimeStamp = dateTimeStamp;
         this.openBidQuote = openBidQuote;
         this.hightBidQuote = hightBidQuote;
