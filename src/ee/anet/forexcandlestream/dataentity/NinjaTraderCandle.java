@@ -21,7 +21,7 @@ public class NinjaTraderCandle extends Candle {
 
     
     @Override
-    public String toString() {
+    public String toLine() {
         return  "";
     }
     
