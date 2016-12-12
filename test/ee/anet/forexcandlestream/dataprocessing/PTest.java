@@ -55,55 +55,6 @@ public class PTest {
 
     
 
-    @Test
-    public void testTicksToMinTicksStream() {
-        System.out.println("ticksToMinTicksStream");
-        List<TruncTick> ticks = null;
-        Comparator<TruncTick> comparator = null;
-        Stream<TruncTick> expResult = null;
-        Stream<TruncTick> result = P.ticksToMinTicksStream(ticks, comparator);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testTicksToMaxTicksStream() {
-        System.out.println("ticksToMaxTicksStream");
-        List<TruncTick> ticks = null;
-        Comparator<TruncTick> comparator = null;
-        Stream<TruncTick> expResult = null;
-        Stream<TruncTick> result = P.ticksToMaxTicksStream(ticks, comparator);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testStreamToMap() {
-        System.out.println("streamToMap");
-        Stream<TruncTick> inStream = null;
-        Map<LocalDateTime, TruncTick> expResult = null;
-        Map<LocalDateTime, TruncTick> result = P.streamToMap(inStream);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testTicksToCandles() {
-        System.out.println("ticksToCandles");
-        Map<LocalDateTime, TruncTick> openTicks = null;
-        Map<LocalDateTime, TruncTick> closeTicks = null;
-        Map<LocalDateTime, TruncTick> highTicks = null;
-        Map<LocalDateTime, TruncTick> lowTicks = null;
-        ArrayList<Candle> expResult = null;
-        ArrayList<Candle> result = P.ticksToCandles(openTicks, closeTicks, highTicks, lowTicks);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 
 
     
