@@ -26,7 +26,7 @@ public abstract class Candle {
         this.closeBidQuote = closeBidQuote;
     }
     
-    public String toLine() {
+    public String toString() {
         return "";
     }
     

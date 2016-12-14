@@ -5,6 +5,8 @@ import ee.anet.forexcandlestream.dataentity.GenericCandle;
 import ee.anet.forexcandlestream.dataentity.Tick;
 import ee.anet.forexcandlestream.dataentity.TruncTick;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -30,6 +32,8 @@ public class P {
 
     public static BinaryOperator<TruncTick> lowBi = BinaryOperator.minBy(lowHigh);
     public static BinaryOperator<TruncTick> highBi = BinaryOperator.maxBy(lowHigh);
+
+    public static  Comparator<Candle> candleSortComparator = (p1, p2) -> p1.dateTimeStamp.compareTo(p2.dateTimeStamp);
 
 
 
@@ -64,6 +68,31 @@ public class P {
             candles.add(new GenericCandle(k, v, highSemiCandle.get(k), lowSemiCandle.get(k), closeSemiCandle.get(k)));
         });
         return candles;
+    }
+
+    public static List<Candle> candlesFromFile(String fileName) throws IOException {
+        DataFile inputFile, outputFile;
+        List<Tick> ticks, ticksParall;
+        List<TruncTick> truncTicks;
+        Map<LocalDateTime, Double> openSemiCandle, highSemiCandle, lowSemiCandle, closeSemiCandle;
+        List<Candle> candles, oderedCandles;
+        List<String> lines;
+
+        inputFile = new DataFile(fileName);
+        lines = inputFile.getLinesFromFileStream();
+        ticks = inputFile.linesToTicksSeq(lines);
+
+        truncTicks = P.ticksToTruncatedTicks(ticks, ChronoUnit.MINUTES);
+
+        openSemiCandle = P.ticksToSemiCandleMap(truncTicks, P.byTimeStampAsc, P.openBi);
+        highSemiCandle = P.ticksToSemiCandleMap(truncTicks, P.byBidQuoteAsc, P.highBi);
+        lowSemiCandle = P.ticksToSemiCandleMap(truncTicks, P.byBidQuoteDesc, P.lowBi);
+        closeSemiCandle = P.ticksToSemiCandleMap(truncTicks, P.byTimeStampDesc, P.closeBi);
+
+        candles = P.semiCandlesToCandles(openSemiCandle, highSemiCandle, lowSemiCandle, closeSemiCandle);
+
+        return  candles.stream().sorted(candleSortComparator).collect(Collectors.toList());
+
     }
 
 }

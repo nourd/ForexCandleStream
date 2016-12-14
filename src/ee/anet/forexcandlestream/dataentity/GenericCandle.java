@@ -50,7 +50,7 @@ public class GenericCandle extends Candle {
 
     
     @Override
-    public String toLine() {
+    public String toString() {
         return  dateTimeStamp.format(DateTimeFormatter.ofPattern("yyyyMMdd HHmmss")) +
                 ";" +
                 String.format("%.6f", openBidQuote) +

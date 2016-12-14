@@ -21,7 +21,7 @@ public class MetaTraderCandle extends Candle {
 
     
     @Override
-    public String toLine() {
+    public String toString() {
         return  "";
     }
     
