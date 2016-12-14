@@ -3,6 +3,8 @@ package ee.anet.forexcandlestream;
 
 import ee.anet.forexcandlestream.dataentity.Candle;
 import ee.anet.forexcandlestream.dataentity.GenericCandle;
+import ee.anet.forexcandlestream.dataentity.Tick;
+import ee.anet.forexcandlestream.dataentity.TruncTick;
 import ee.anet.forexcandlestream.dataprocessing.DataFile;
 import ee.anet.forexcandlestream.dataprocessing.P;
 
@@ -13,8 +15,14 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.reducing;
+import static java.util.stream.Collectors.toList;
 
 /**
  *
@@ -33,54 +41,86 @@ public class Main {
         List<String> lines;
         LocalDateTime timeStamp, startInterval, start, endClassic, endStream;
 
-        for (int i = 0; i <= 0; i++) {
-            System.out.println("Start: " + LocalDateTime.now());
+        System.out.println(LocalDateTime.now());
 
-                inputFile = new DataFile("/Users/andreyutkin/Downloads/HISTDATA_COM_ASCII_EURUSD_T201611/DAT_ASCII_EURUSD_T_201611.csv");
-                String line;
-                lines = inputFile.getLinesFromFileStream();
-                String[] data = lines.get(0).split(",");
-                startInterval = LocalDateTime.parse(data[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")).truncatedTo(ChronoUnit.MINUTES);
-                Double open = 0.0;
-                Double close = 0.0;
-                Double high = 0.0;
-                Double low = 100000000.0;
-                Double currentBid;
-                orderedCandles = new ArrayList<Candle>();
+        String fileName = "/Users/andreyutkin/Downloads/HISTDATA_COM_ASCII_EURUSD_T201610/DAT_ASCII_EURUSD_T_201610.csv";
+        inputFile = new DataFile(fileName);
+//        lines = inputFile.getLinesFromFileStream();
 
 
-                for (int j = 0; j < lines.size(); j++) {
 
-                    line = lines.get(j);
-                    data = line.split(",");
-                    currentBid = Double.parseDouble(data[1]);
-                    if (open.equals(0.0)) {
-                        open = currentBid;
-                    }
-                    timeStamp = LocalDateTime.parse(data[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
-                    if (timeStamp.truncatedTo(ChronoUnit.MINUTES).equals(startInterval)) {
-                        high = (high < currentBid) ? currentBid : high;
-                        low = (low > currentBid) ? currentBid : low;
-                        close = currentBid;
-                    } else {
-                        orderedCandles.add(new GenericCandle(startInterval, open, high, low, close));
-//                System.out.println(new GenericCandle(startInterval,open,high,low,close).toString());
-//                System.out.println(orderedCandles.size());
-                        open = 0.0;
-                        close = 0.0;
-                        high = 0.0;
-                        low = 100000000.0;
-                        startInterval = startInterval.plusMinutes(1);
-//                System.out.println(startInterval);
-                    }
-                }
+//        Map<LocalDateTime, Double> ticks = new HashMap<LocalDateTime, Double>();
+////        Map<LocalDateTime, Double> sortedTicks = new HashMap<LocalDateTime, Double>();
+//
+//
+//        lines.stream().forEach((line) -> {
+//            String[] t = line.split(",");
+//            ticks.put(LocalDateTime.parse(t[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")), Double.parseDouble(t[1]));
+//        });
+//
+//        System.out.println(ticks);
+//
+//
+//
+//        Map<LocalDateTime, Double>  sortedTicks = ticks.entrySet()
+//                .stream()
+//                .sorted(Map.Entry.comparingByKey())
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(e1, e2) -> e2, LinkedHashMap::new));
+//
+//        System.out.println(sortedTicks);
+//
+//
+//        Map<LocalDateTime, Double> tickTick = new HashMap<LocalDateTime, Double>();
+//
+//
+//        Map<LocalDateTime, List<Double>>  ss = lines
+//                .stream()
+//                .collect(Collectors.groupingBy(Main::getTrunc, mapping(Main::getValue, toList())));
+//
+//        System.out.println(ss);
+//
+//        List<Double> lst = Arrays.asList(1.1236, 1.12366, 1.12372, 1.1236, 1.12358, 1.12358, 1.12358, 1.12358, 1.12358, 1.12343);
 
-                System.out.println("Classic: " + LocalDateTime.now());
-                orderedCandlesStream = P.candlesFromFile("/Users/andreyutkin/Downloads/HISTDATA_COM_ASCII_EURUSD_T201611/DAT_ASCII_EURUSD_T_201611.csv");
-                System.out.println("Stream: " + LocalDateTime.now());
-//                orderedCandlesStream.forEach((c) -> System.out.println(c.toString()));
-//        System.out.println(Period.between(start,endClassic,ChronoUnit.MILLIS) + " - " + Period.between(start,endClassic,ChronoUnit.MILLIS));
+        Function<List<Double>, Double> high = l -> l.stream().max(Double::compare).get();
+        Function<List<Double>, Double> low = l -> l.stream().min(Double::compare).get();
+        Function<List<Double>, Double> open = l -> l.stream().findFirst().get();
+        Function<List<Double>, Double> close = l -> l.stream().reduce((a, b) -> b).orElse(0.0);
+//        Double first = lst.stream().findFirst().get();
+//        Double last = lst.stream().reduce((a, b) -> b).orElse(0.0);;
 
-        }
+//        System.out.println(last);
+
+        List<Candle> candles = new ArrayList<>();
+
+        System.out.println(LocalDateTime.now());
+
+        inputFile.getLinesFromFileStream()
+                .stream()
+                .collect(Collectors.groupingBy(Main::getTrunc, mapping(Main::getValue, toList())))
+                
+                .forEach((k,v) -> {
+                    candles.add(new GenericCandle(k, open.apply(v), high.apply(v), low.apply(v), close.apply(v) ));
+                });
+
+        System.out.println(LocalDateTime.now());
+
+        List<Candle> candlesClassic = P.candlesFromFileClassic(fileName);
+
+        System.out.println(LocalDateTime.now());
+
+
+
+
+    }
+
+    public static LocalDateTime getType(String line) {
+        return LocalDateTime.parse(line.split(",")[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
+    }
+    public static Double getValue(String line) {
+        return Double.parseDouble(line.split(",")[1]);
+    }
+
+    public static LocalDateTime getTrunc(String line) {
+        return LocalDateTime.parse(line.split(",")[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")).truncatedTo(ChronoUnit.MINUTES);
     }
 }
