@@ -97,7 +97,7 @@ public class Main {
         inputFile.getLinesFromFileStream()
                 .stream()
                 .collect(Collectors.groupingBy(Main::getTrunc, mapping(Main::getValue, toList())))
-                
+
                 .forEach((k,v) -> {
                     candles.add(new GenericCandle(k, open.apply(v), high.apply(v), low.apply(v), close.apply(v) ));
                 });

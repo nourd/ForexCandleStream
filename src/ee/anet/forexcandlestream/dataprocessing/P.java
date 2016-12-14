@@ -8,6 +8,7 @@ import ee.anet.forexcandlestream.dataentity.TruncTick;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.BinaryOperator;
@@ -93,6 +94,54 @@ public class P {
 
         return  candles.stream().sorted(candleSortComparator).collect(Collectors.toList());
 
+    }
+
+    public static List<Candle> candlesFromFileClassic(String fileName) throws IOException {
+        DataFile inputFile;
+        List<String> lines;
+        LocalDateTime timeStamp, startInterval;
+        List<Candle> orderedCandles;
+
+
+        inputFile = new DataFile(fileName);
+        String line;
+        lines = inputFile.getLinesFromFileStream();
+        String[] data = lines.get(0).split(",");
+        startInterval = LocalDateTime.parse(data[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")).truncatedTo(ChronoUnit.MINUTES);
+        Double open = 0.0;
+        Double close = 0.0;
+        Double high = 0.0;
+        Double low = 100000000.0;
+        Double currentBid;
+        orderedCandles = new ArrayList<Candle>();
+
+
+        for (int j = 0; j < lines.size(); j++) {
+
+            line = lines.get(j);
+            data = line.split(",");
+            currentBid = Double.parseDouble(data[1]);
+            if (open.equals(0.0)) {
+                open = currentBid;
+            }
+            timeStamp = LocalDateTime.parse(data[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
+            if (timeStamp.truncatedTo(ChronoUnit.MINUTES).equals(startInterval)) {
+                high = (high < currentBid) ? currentBid : high;
+                low = (low > currentBid) ? currentBid : low;
+                close = currentBid;
+            } else {
+                orderedCandles.add(new GenericCandle(startInterval, open, high, low, close));
+//                System.out.println(new GenericCandle(startInterval,open,high,low,close).toString());
+//                System.out.println(orderedCandles.size());
+                open = 0.0;
+                close = 0.0;
+                high = 0.0;
+                low = 100000000.0;
+                startInterval = startInterval.plusMinutes(1);
+//                System.out.println(startInterval);
+            }
+        }
+        return orderedCandles;
     }
 
 }
