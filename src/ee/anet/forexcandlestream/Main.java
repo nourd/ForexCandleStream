@@ -136,9 +136,9 @@ public class Main {
     public static LocalDateTime getType(String line) {
         return LocalDateTime.parse(line.split(",")[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
     }
-//    public static Double getValue(String line) {
-//        return Double.parseDouble(line.split(",")[1]);
-//    }
+    public static Double getValue(String line) {
+        return Double.parseDouble(line.split(",")[1]);
+    }
 
     public static LocalDateTime getTrunc(String line) {
         return LocalDateTime.parse(line.split(",")[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")).truncatedTo(ChronoUnit.MINUTES);
