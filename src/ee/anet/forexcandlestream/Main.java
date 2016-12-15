@@ -43,7 +43,8 @@ public class Main {
 
         System.out.println(LocalDateTime.now());
 
-        String fileName = "/Users/andreyutkin/Downloads/HISTDATA_COM_ASCII_EURUSD_T201610/DAT_ASCII_EURUSD_T_201610.csv";
+//        String fileName = "/Users/andreyutkin/Downloads/HISTDATA_COM_ASCII_EURUSD_T201610/DAT_ASCII_EURUSD_T_201610.csv";
+        String fileName = "/Users/andreyutkin/Downloads/HISTDATA_COM_ASCII_EURUSD_T201610/test.csv";
         inputFile = new DataFile(fileName);
 //        lines = inputFile.getLinesFromFileStream();
 
@@ -111,16 +112,39 @@ public class Main {
 
 
 
+//        ++++++++++++++++++++++++++++
+
+        Map<LocalDateTime, Double> ttt = inputFile.getLinesFromFileStream()
+                .stream()
+                .collect( Collectors.toMap(  l -> LocalDateTime.parse(l.split(",")[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")),
+                        l -> Double.parseDouble(l.split(",")[1])));
+
+        List<Double> sss = ttt.entrySet().stream()
+                .map(p -> p.getValue()).collect(toList());
+
+        System.out.println(sss);
+
+
+//                .collect(Collectors.groupingBy(c -> c.getKey(), mapping(Main::getValue, toList())))
+//
+
+
+
+
     }
 
     public static LocalDateTime getType(String line) {
         return LocalDateTime.parse(line.split(",")[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
     }
-    public static Double getValue(String line) {
-        return Double.parseDouble(line.split(",")[1]);
-    }
+//    public static Double getValue(String line) {
+//        return Double.parseDouble(line.split(",")[1]);
+//    }
 
     public static LocalDateTime getTrunc(String line) {
         return LocalDateTime.parse(line.split(",")[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")).truncatedTo(ChronoUnit.MINUTES);
+    }
+
+    public static LocalDateTime getTruncTime(LocalDateTime p) {
+        return p.truncatedTo(ChronoUnit.MINUTES);
     }
 }

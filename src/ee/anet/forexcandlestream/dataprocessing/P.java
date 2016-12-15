@@ -105,7 +105,7 @@ public class P {
 
         inputFile = new DataFile(fileName);
         String line;
-        lines = inputFile.getLinesFromFileStream();
+        lines = inputFile.getLinesFromFile();
         String[] data = lines.get(0).split(",");
         startInterval = LocalDateTime.parse(data[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")).truncatedTo(ChronoUnit.MINUTES);
         Double open = 0.0;
