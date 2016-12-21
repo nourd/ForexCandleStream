@@ -11,19 +11,18 @@ import java.time.temporal.ChronoUnit;
  */
 public class Tick {
     public final LocalDateTime dateTimeStamp;
+    public final LocalDateTime dateTimeStampTruncated;
     public final double bidQuote;
-    public final double askQuote;
     
-    public Tick(String dateTimeStampStr, double bidQuote, double askQuote) {
+    public Tick(String dateTimeStampStr, String bidQuoteStr) {
         this.dateTimeStamp = LocalDateTime.parse(dateTimeStampStr, DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
-        this.bidQuote = bidQuote;
-        this.askQuote = askQuote;
+        this.dateTimeStampTruncated = this.dateTimeStamp.truncatedTo(ChronoUnit.MINUTES);
+        this.bidQuote = Double.parseDouble(bidQuoteStr);
     }
-    
-    public Tick(LocalDateTime dateTimeStamp, double bidQuote, double askQuote) {
-        this.dateTimeStamp = dateTimeStamp;
-        this.bidQuote = bidQuote;
-        this.askQuote = askQuote;
+
+    public LocalDateTime getDateTimeStampTruncated() {
+        return this.dateTimeStampTruncated;
     }
+
     
 }

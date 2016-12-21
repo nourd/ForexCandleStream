@@ -34,32 +34,15 @@ public class DataFile {
             line = mScanner.nextLine();
             lines.add(line);
         }
+        mScanner.close();
         return lines;
     }
 
-    public List<String> getLinesFromFileStream() throws FileNotFoundException, IOException {
-        List<String> lines;
-        lines = readAllLines(Paths.get(this.fileName));
-        return lines;
+    public static List<String> getLinesFromFile(String fileName) throws  IOException {
+        return readAllLines(Paths.get(fileName));
     }
 
-    public List<Tick> linesToTicksParall(List<String> lines) {
-        List<Tick> ticks = new ArrayList<Tick>();
-        lines.stream().parallel().forEach((line) -> {
-            String[] t = line.split(",");
-            ticks.add(new Tick(t[0], Double.parseDouble(t[1]), Double.parseDouble(t[2])));
-        });
-        return ticks;
-    }
 
-    public List<Tick> linesToTicksSeq(List<String> lines) {
-        List<Tick> ticks = new ArrayList<Tick>();
-        lines.stream().forEach((line) -> {
-            String[] t = line.split(",");
-            ticks.add(new Tick(t[0], Double.parseDouble(t[1]), Double.parseDouble(t[2])));
-        });
-        return ticks;
-    }
 
     public void writeCandle(ArrayList<Candle> candles) {
 
