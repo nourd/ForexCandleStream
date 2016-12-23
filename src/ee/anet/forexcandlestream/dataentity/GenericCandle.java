@@ -40,9 +40,9 @@ import java.time.format.DateTimeFormatter;
 public class GenericCandle extends Candle {
     
     public GenericCandle(
-                    LocalDateTime dateTimeStamp, 
-                    double openBidQuote, 
-                    double hightBidQuote, 
+                    LocalDateTime dateTimeStamp,
+                    double openBidQuote,
+                    double hightBidQuote,
                     double lowBidQuote,
                     double closeBidQuote) {
         super(dateTimeStamp, openBidQuote, hightBidQuote, lowBidQuote, closeBidQuote);

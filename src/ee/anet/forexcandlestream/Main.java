@@ -1,8 +1,7 @@
 
 package ee.anet.forexcandlestream;
 
-import ee.anet.forexcandlestream.dataentity.Candle;
-import ee.anet.forexcandlestream.dataentity.Tick;
+import ee.anet.forexcandlestream.dataentity.*;
 import ee.anet.forexcandlestream.dataprocessing.DataFile;
 import ee.anet.forexcandlestream.dataprocessing.StepByStepStream;
 
@@ -24,22 +23,35 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         DataFile inputFile;
-        List<Candle> orderedCandles, orderedCandlesStream;
-
-        List<String> lines, linesStream;
+        Lines lines;
+        GroupedTicks groupedTicks;
         LocalDateTime timeStamp, startInterval, start, endClassic, endStream;
-        List<Tick> ticks;
+        Ticks ticks;
 //        Map<LocalDateTime, Map<LocalDateTime, Double>> groupedTicks;
 //        Map<LocalDateTime, LocalDateTime> groupedTicks;
 
         String fileName = "test.csv";
 
 //        Step By Step
+        DataFile inpFile = new DataFile(fileName);
 
-        lines = DataFile.getLinesFromFile(fileName);
-        ticks = StepByStepStream.getTicksFromLines(lines);
-        Map<LocalDateTime, Long> truncatedTicks = StepByStepStream.getTruncatedTicks(ticks);
-        System.out.println(truncatedTicks);
+
+//        ticks = inpFile.getLines().getTicks();
+//        groupedTicks = inpFile.getLines().getTicks().getGroupedTicks();
+//        ticks = StepByStepStream.getTicksFromLines(lines);
+//        Map<LocalDateTime, List<Tick>> truncatedTicks = StepByStepStream.getTruncatedTicks(ticks);
+        Candles candles = inpFile.getLines().getTicks().getGroupedTicks().getCandles();
+        System.out.println(candles);
+
+        inpFile
+                .getLines()
+                .getTicks()
+                .getGroupedTicks()
+                .getCandles()
+                .printCandles();
+
+
+//        sortedCandles.stream().forEach(e -> System.out.println(e));
 
 
 

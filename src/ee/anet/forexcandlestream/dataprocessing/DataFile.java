@@ -2,7 +2,7 @@
 package ee.anet.forexcandlestream.dataprocessing;
 
 import ee.anet.forexcandlestream.dataentity.Candle;
-import ee.anet.forexcandlestream.dataentity.Tick;
+import ee.anet.forexcandlestream.dataentity.Lines;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,24 +26,13 @@ public class DataFile {
         this.fileName = fileName;
     }
 
-    public List<String> getLinesFromFile() throws FileNotFoundException {
-        Scanner mScanner = new Scanner(this.dataFile);
-        String line;
-        List<String> lines = new ArrayList<String>();
-        while (mScanner.hasNextLine()) {
-            line = mScanner.nextLine();
-            lines.add(line);
-        }
-        mScanner.close();
-        return lines;
+    public  List<String> getLinesList() throws  IOException {
+        return  readAllLines(Paths.get(fileName));
     }
 
-    public static List<String> getLinesFromFile(String fileName) throws  IOException {
-        return readAllLines(Paths.get(fileName));
+    public Lines getLines() throws  IOException {
+        return new Lines(getLinesList());
     }
-
-
-
     public void writeCandle(ArrayList<Candle> candles) {
 
     }

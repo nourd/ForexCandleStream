@@ -24,5 +24,13 @@ public class Tick {
         return this.dateTimeStampTruncated;
     }
 
+    public Double getBidQuote() {
+        return this.bidQuote;
+    }
+
+    public LocalDateTime getDateTimeStamp() {
+        return this.dateTimeStamp;
+    }
+
     
 }
