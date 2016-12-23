@@ -1,10 +1,8 @@
 package ee.anet.forexcandlestream.dataentity;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -13,14 +11,18 @@ import java.util.stream.Collectors;
 public class Candles {
 
     private final List<Candle> candles;
-    final Comparator<Candle> byTimeComp  = (t1, t2) -> t1.dateTimeStamp.compareTo(t2.dateTimeStamp);
+    private final Comparator<Candle> byTimeComp = (t1, t2) -> t1.dateTimeStamp.compareTo(t2.dateTimeStamp);
 
     public Candles(List<Candle> candles) {
         this.candles = candles;
     }
 
-    public void printCandles() {
-        candles.stream().sorted(byTimeComp).forEach(e -> System.out.println(e));
+    public void writeToFile(String fileName) throws IOException {
+        new DataFile(fileName).writeLines(getLines());
+    }
+
+    private List<String> getLines() {
+        return candles.stream().sorted(byTimeComp).map(e -> e.toString()).collect(Collectors.toList());
     }
 
 
