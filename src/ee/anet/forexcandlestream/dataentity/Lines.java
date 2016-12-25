@@ -7,13 +7,14 @@ import java.util.List;
  * Created by andreyutkin on 22/12/2016.
  */
 public class Lines {
-    List<String> lines;
+    private final List<String> lines;
 
     public Lines(List<String> lines) {
         this.lines = lines;
     }
 
-    public Ticks getTicks() {
+
+    public Ticks linesToTicks() {
         List<Tick> ticks = new ArrayList<>();
         lines.stream().forEach((line) -> {
             String[] t = line.split(",");

@@ -14,9 +14,9 @@ public class Tick {
     public final double bidQuote;
 
     public Tick(String dateTimeStampStr, String bidQuoteStr) {
-        this.dateTimeStamp = LocalDateTime.parse(dateTimeStampStr, DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
+        this.dateTimeStamp          = LocalDateTime.parse(dateTimeStampStr, DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
         this.dateTimeStampTruncated = this.dateTimeStamp.truncatedTo(ChronoUnit.MINUTES);
-        this.bidQuote = Double.parseDouble(bidQuoteStr);
+        this.bidQuote               = Double.parseDouble(bidQuoteStr);
     }
 
     public LocalDateTime getDateTimeStampTruncated() {

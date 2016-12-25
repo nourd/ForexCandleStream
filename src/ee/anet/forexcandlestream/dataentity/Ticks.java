@@ -16,11 +16,11 @@ public class Ticks {
         this.ticks = ticks;
     }
 
-    public TicksGrouped getTicksGrouped() {
+    public TicksGrouped ticksToTicksGrouped() {
         Map<LocalDateTime, List<Tick>> ticksGrouped =
                 ticks
-                        .stream()
-                        .collect(Collectors.groupingBy(Tick::getDateTimeStampTruncated));
+                    .stream()
+                    .collect(Collectors.groupingBy(Tick::getDateTimeStampTruncated));
         return new TicksGrouped(ticksGrouped);
     }
 }
