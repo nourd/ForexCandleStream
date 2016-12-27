@@ -17,14 +17,16 @@ public class Candles {
         this.candles = candles;
     }
 
-    public void candlesToFile(String fileName) throws IOException {
+    public void writeCandlesToFile(String fileName) throws IOException {
         new DataFile(fileName).writeLines(getLines());
     }
 
     private List<String> getLines() {
-        return candles
+        return  candles
                 .stream()
                 .sorted(sortByTimeComp)
                 .map(e -> e.toString()).collect(Collectors.toList());
     }
+
+
 }

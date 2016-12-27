@@ -17,10 +17,12 @@ public class Ticks {
     }
 
     public TicksGrouped ticksToTicksGrouped() {
-        Map<LocalDateTime, List<Tick>> ticksGrouped =
-                ticks
-                    .stream()
-                    .collect(Collectors.groupingBy(Tick::getDateTimeStampTruncated));
+        Map<LocalDateTime, List<Tick>> ticksGrouped;
+        ticksGrouped = ticks
+                        .stream()
+                        .collect(Collectors.groupingBy(Tick::getDateTimeStampTruncated));
         return new TicksGrouped(ticksGrouped);
     }
+
+
 }

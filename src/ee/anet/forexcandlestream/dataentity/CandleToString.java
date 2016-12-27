@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Created by andreyutkin on 24/12/2016.
  */
-public class CandlesToString {
+public class CandleToString {
     public static final Function<Candle, String> generic =
             (c) -> {
                 List<String> data = Arrays.asList(

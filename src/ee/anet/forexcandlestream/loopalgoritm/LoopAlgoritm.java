@@ -1,4 +1,9 @@
-package ee.anet.forexcandlestream.dataentity;
+package ee.anet.forexcandlestream.loopalgoritm;
+
+import ee.anet.forexcandlestream.dataentity.Candle;
+import ee.anet.forexcandlestream.dataentity.Candles;
+import ee.anet.forexcandlestream.dataentity.CandleToString;
+import ee.anet.forexcandlestream.dataentity.DataFile;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -51,7 +56,7 @@ public class LoopAlgoritm {
                 low = (low > currentBid) ? currentBid : low;
                 close = currentBid;
             } else {
-                orderedCandles.add(new Candle(startInterval, open, high, low, close, CandlesToString.generic));
+                orderedCandles.add(new Candle(startInterval, open, high, low, close, CandleToString.generic));
                 open = 0.0;
                 close = 0.0;
                 high = 0.0;
