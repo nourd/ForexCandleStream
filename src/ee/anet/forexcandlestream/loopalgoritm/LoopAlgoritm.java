@@ -2,7 +2,7 @@ package ee.anet.forexcandlestream.loopalgoritm;
 
 import ee.anet.forexcandlestream.dataentity.Candle;
 import ee.anet.forexcandlestream.dataentity.Candles;
-import ee.anet.forexcandlestream.dataentity.CandleToString;
+import ee.anet.forexcandlestream.dataentity.CandleFunctions;
 import ee.anet.forexcandlestream.dataentity.DataFile;
 
 import java.io.IOException;
@@ -22,15 +22,10 @@ public class LoopAlgoritm {
 
 
     public static Candles candlesFromFile(String fileName) throws IOException {
-        DataFile inputFile;
         List<String> lines;
         LocalDateTime timeStamp, startInterval;
         List<Candle> orderedCandles;
-
-
-//        inputFile = new DataFile(fileName);
         String line;
-//        lines = inputFile.getLinesList();
         lines = readAllLines(Paths.get(fileName));
         String[] data = lines.get(0).split(",");
         startInterval = LocalDateTime.parse(data[0], DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS")).truncatedTo(ChronoUnit.MINUTES);
@@ -56,7 +51,7 @@ public class LoopAlgoritm {
                 low = (low > currentBid) ? currentBid : low;
                 close = currentBid;
             } else {
-                orderedCandles.add(new Candle(startInterval, open, high, low, close, CandleToString.generic));
+                orderedCandles.add(new Candle(startInterval, open, high, low, close));
                 open = 0.0;
                 close = 0.0;
                 high = 0.0;

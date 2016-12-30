@@ -6,10 +6,10 @@ import java.util.List;
 /**
  * Created by andreyutkin on 22/12/2016.
  */
-public class Lines {
+public class TickLines {
     private final List<String> lines;
 
-    public Lines(List<String> lines) {
+    public TickLines(List<String> lines) {
         this.lines = lines;
     }
 

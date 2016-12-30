@@ -1,8 +1,8 @@
 package ee.anet.forexcandlestream.dataentity;
 
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -17,15 +17,12 @@ public class Candles {
         this.candles = candles;
     }
 
-    public void writeCandlesToFile(String fileName) throws IOException {
-        new DataFile(fileName).writeLines(getLines());
-    }
-
-    private List<String> getLines() {
-        return  candles
+    public CandleLines getLines(Function toLineFunc) {
+         List<String> lines = candles
                 .stream()
                 .sorted(sortByTimeComp)
-                .map(e -> e.toString()).collect(Collectors.toList());
+                .map(e -> e.toLine(toLineFunc)).collect(Collectors.toList());
+        return new CandleLines(lines);
     }
 
 

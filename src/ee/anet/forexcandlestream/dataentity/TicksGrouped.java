@@ -24,7 +24,7 @@ public class TicksGrouped {
     }
 
 
-    public Candles ticksGroupedToCandles(Function toStringFunc) {
+    public Candles ticksGroupedToCandles() {
         List<Candle> candles = new ArrayList<>();
         groupedTicks
                 .entrySet()
@@ -36,8 +36,7 @@ public class TicksGrouped {
                                 getBidQuote(ticks, byTimeStampAsc),
                                 getBidQuote(ticks, byBidQuoteDesc),
                                 getBidQuote(ticks, byBidQuoteAsc),
-                                getBidQuote(ticks, byTimeStampDesc),
-                                toStringFunc));
+                                getBidQuote(ticks, byTimeStampDesc)));
                 });
         return new Candles(candles);
     }

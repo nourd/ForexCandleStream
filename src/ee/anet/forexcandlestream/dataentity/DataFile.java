@@ -20,11 +20,11 @@ public class DataFile {
         this.fileName = fileName;
     }
 
-    public Lines fileToLines() throws IOException {
-        return new Lines(getLinesList());
+    public TickLines fileToLines() throws IOException {
+        return new TickLines(getLinesList());
     }
 
-    public void writeLines(List<String> lines) throws IOException {
+    public void linesToFile(List<String> lines) throws IOException {
         Files.write(Paths.get(fileName), lines, StandardCharsets.UTF_8);
     }
 

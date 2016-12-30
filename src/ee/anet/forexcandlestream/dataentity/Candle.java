@@ -16,25 +16,21 @@ public class Candle {
     public final double lowBidQuote;
     public final double closeBidQuote;
 
-    private final Function<Candle, String> toStringFunc;
-
     public Candle(
                 LocalDateTime dateTimeStamp,
                 double openBidQuote,
                 double hightBidQuote,
                 double lowBidQuote,
-                double closeBidQuote, Function<Candle, String> toStringFunc) {
+                double closeBidQuote) {
 
         this.dateTimeStamp = dateTimeStamp;
         this.openBidQuote = openBidQuote;
         this.hightBidQuote = hightBidQuote;
         this.lowBidQuote = lowBidQuote;
         this.closeBidQuote = closeBidQuote;
-        this.toStringFunc = toStringFunc;
     }
 
-    @Override
-    public String toString() {
-        return toStringFunc.apply(this);
+    public String toLine(Function<Candle, String> toLineFunc) {
+        return toLineFunc.apply(this);
     }
 }
