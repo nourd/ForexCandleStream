@@ -6,24 +6,21 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
- *
  * @author andreyutkin
  */
 public class Tick {
     public final LocalDateTime dateTimeStamp;
+    public final LocalDateTime dateTimeStampTruncated;
     public final double bidQuote;
-    public final double askQuote;
-    
-    public Tick(String dateTimeStampStr, double bidQuote, double askQuote) {
-        this.dateTimeStamp = LocalDateTime.parse(dateTimeStampStr, DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
-        this.bidQuote = bidQuote;
-        this.askQuote = askQuote;
+
+    public Tick(String dateTimeStampStr, String bidQuoteStr) {
+        this.dateTimeStamp          = LocalDateTime.parse(dateTimeStampStr, DateTimeFormatter.ofPattern("yyyyMMdd HHmmssSSS"));
+        this.dateTimeStampTruncated = this.dateTimeStamp.truncatedTo(ChronoUnit.MINUTES);
+        this.bidQuote               = Double.parseDouble(bidQuoteStr);
     }
-    
-    public Tick(LocalDateTime dateTimeStamp, double bidQuote, double askQuote) {
-        this.dateTimeStamp = dateTimeStamp;
-        this.bidQuote = bidQuote;
-        this.askQuote = askQuote;
+
+    public LocalDateTime getDateTimeStampTruncated() {
+        return this.dateTimeStampTruncated;
     }
-    
+
 }
