@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
  * Created by andreyutkin on 24/12/2016.
  */
 public class CandleFunctions {
+
     public static final Function<Candle, String> generic =
             (c) -> {
                 List<String> data = Arrays.asList(
@@ -20,4 +21,28 @@ public class CandleFunctions {
                         String.format("%.6f", c.closeBidQuote));
                 return data.stream().collect(Collectors.joining(";"));
             };
+
+    public static final Function<Candle, String> metaTrader =
+            (c) -> {
+                List<String> data = Arrays.asList(
+                        c.dateTimeStamp.format(DateTimeFormatter.ofPattern("yyyy.MM.dd,HH:mm")),
+                        String.format("%.6f", c.openBidQuote),
+                        String.format("%.6f", c.hightBidQuote),
+                        String.format("%.6f", c.lowBidQuote),
+                        String.format("%.6f", c.closeBidQuote));
+                return data.stream().collect(Collectors.joining(";"));
+            };
+
+    public static final Function<Candle, String> ninjaTrader =
+            (c) -> {
+                List<String> data = Arrays.asList(
+                        c.dateTimeStamp.format(DateTimeFormatter.ofPattern("yyyyMMdd HHmmss")),
+                        String.format("%.6f", c.openBidQuote),
+                        String.format("%.6f", c.hightBidQuote),
+                        String.format("%.6f", c.lowBidQuote),
+                        String.format("%.6f", c.closeBidQuote));
+                return data.stream().collect(Collectors.joining(";"));
+            };
+
+
 }
