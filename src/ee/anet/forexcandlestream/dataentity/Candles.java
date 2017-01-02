@@ -17,13 +17,11 @@ public class Candles {
         this.candles = candles;
     }
 
-    public CandleLines getLines(Function toLineFunc) {
+    public CandleLines getLines(Function<Candle, String> toLineFunc) {
          List<String> lines = candles
                 .stream()
                 .sorted(sortByTimeComp)
                 .map(e -> e.toLine(toLineFunc)).collect(Collectors.toList());
         return new CandleLines(lines);
     }
-
-
 }
