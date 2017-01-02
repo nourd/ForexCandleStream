@@ -37,21 +37,25 @@ public String toLine(Function<Candle, String> toLineFunc) {
     private static Comparator<Tick> byBidQuoteDesc = (t1, t2) -> Double.compare(t2.bidQuote, t1.bidQuote);
 
 
-public Candles ticksGroupedToCandles() {
-        List<Candle> candles = new ArrayList<>();
-        groupedTicks
-                .entrySet()
-                .stream()
-                .forEach((e) -> {
-                    List<Tick> ticks = e.getValue();
-                        candles.add(new Candle(
-                                e.getKey(),
-                                getBidQuote(ticks, byTimeStampAsc),
-                                getBidQuote(ticks, byBidQuoteDesc),
-                                getBidQuote(ticks, byBidQuoteAsc),
-                                getBidQuote(ticks, byTimeStampDesc)));
-                });
-        return new Candles(candles);
-    }
+        public Candles ticksGroupedToCandles() {
+                List<Candle> candles = new ArrayList<>();
+                groupedTicks
+                        .entrySet()
+                        .stream()
+                        .forEach((e) -> {
+                            List<Tick> ticks = e.getValue();
+                                candles.add(new Candle(
+                                        e.getKey(),
+                                        getBidQuote(ticks, byTimeStampAsc),
+                                        getBidQuote(ticks, byBidQuoteDesc),
+                                        getBidQuote(ticks, byBidQuoteAsc),
+                                        getBidQuote(ticks, byTimeStampDesc)));
+                        });
+                return new Candles(candles);
+            }
+            
+### Параллельная обработка
+
+
 
 
