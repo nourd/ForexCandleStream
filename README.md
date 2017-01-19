@@ -51,10 +51,10 @@ public String toLine(Function<Candle, String> toLineFunc) {
 						List<Tick> ticks = e.getValue();
 							candles.add(new Candle(
 									e.getKey(),
-									**getBidQuote(ticks, byTimeStampAsc),
+									**getBidQuote(ticks, byTimeStampAsc),**
 									getBidQuote(ticks, byBidQuoteDesc),
 									getBidQuote(ticks, byBidQuoteAsc),
-									getBidQuote(ticks, byTimeStampDesc)))**;
+									**getBidQuote(ticks, byTimeStampDesc)))**;
 					});
 			return new Candles(candles);
 		}
