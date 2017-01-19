@@ -1,7 +1,6 @@
 # ForexCandleStream
-*Java Stream API, DateTime API*
+*Java Stream API, DateTime API, Lambdas, Static Methods in interfaces*
 
-Максимальный эффект от использования новы
 ### Алгоритм
 
 ### Статические методы в интерфейсах
@@ -51,7 +50,7 @@ public String toLine(Function<Candle, String> toLineFunc) {
 						List<Tick> ticks = e.getValue();
 							candles.add(new Candle(
 									e.getKey(),
-									`getBidQuote(ticks, byTimeStampAsc),`
+									getBidQuote(ticks, byTimeStampAsc),
 									getBidQuote(ticks, byBidQuoteDesc),
 									getBidQuote(ticks, byBidQuoteAsc),
 									getBidQuote(ticks, byTimeStampDesc)));
