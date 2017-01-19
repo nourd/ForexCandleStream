@@ -1,5 +1,8 @@
 # ForexCandleStream
-Java Stream API, DateTime API
+*Java Stream API, DateTime API*
+
+Максимальный эффект от использования новы
+### Алгоритм
 
 ### Статические методы в интерфейсах
 Позволяют не плодить лишних сущностей, иногда можно ограничиться интерфейса с набором статических методов, например, интерфейс API.
@@ -36,6 +39,8 @@ public String toLine(Function<Candle, String> toLineFunc) {
     private static Comparator<Tick> byBidQuoteAsc = (t1, t2) -> Double.compare(t1.bidQuote, t2.bidQuote);
     private static Comparator<Tick> byBidQuoteDesc = (t1, t2) -> Double.compare(t2.bidQuote, t1.bidQuote);
 
+
+пример вызовов метода:
 
 	public Candles ticksGroupedToCandles() {
 			List<Candle> candles = new ArrayList<>();
